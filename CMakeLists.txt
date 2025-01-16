@@ -1,7 +1,13 @@
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.11)
 
 # 可以指定更多的信息，比如加一个版本号
 project ("GcServer")
+
+if(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
+    # !!! choose your compiler on Windows
+    set(CMAKE_C_COMPILER "D:/MINGW/mingw32/bin/g++.exe")
+    set(CMAKE_CXX_COMPILER "D:/MINGW/mingw32/bin/g++.exe")
+endif()
 
 # using gdb
 set(CMAKE_BUILD_TYPE "Debug")

@@ -1,0 +1,32 @@
+[
+{
+  "directory": "D:/C++/Cpp_Project/GcServer/build/src/GcSpdlog",
+  "command": "D:\\MINGW\\mingw32\\bin\\g++.exe -Dgcspdlog_EXPORTS @CMakeFiles/gcspdlog.dir/includes_CXX.rsp -g -o CMakeFiles\\gcspdlog.dir\\formatter.cpp.obj -c D:\\C++\\Cpp_Project\\GcServer\\src\\GcSpdlog\\formatter.cpp",
+  "file": "D:/C++/Cpp_Project/GcServer/src/GcSpdlog/formatter.cpp",
+  "output": "src/GcSpdlog/CMakeFiles/gcspdlog.dir/formatter.cpp.obj"
+},
+{
+  "directory": "D:/C++/Cpp_Project/GcServer/build/src/GcSpdlog",
+  "command": "D:\\MINGW\\mingw32\\bin\\g++.exe -Dgcspdlog_EXPORTS @CMakeFiles/gcspdlog.dir/includes_CXX.rsp -g -o CMakeFiles\\gcspdlog.dir\\logger.cpp.obj -c D:\\C++\\Cpp_Project\\GcServer\\src\\GcSpdlog\\logger.cpp",
+  "file": "D:/C++/Cpp_Project/GcServer/src/GcSpdlog/logger.cpp",
+  "output": "src/GcSpdlog/CMakeFiles/gcspdlog.dir/logger.cpp.obj"
+},
+{
+  "directory": "D:/C++/Cpp_Project/GcServer/build/src/GcSpdlog",
+  "command": "D:\\MINGW\\mingw32\\bin\\g++.exe -Dgcspdlog_EXPORTS @CMakeFiles/gcspdlog.dir/includes_CXX.rsp -g -o CMakeFiles\\gcspdlog.dir\\registry.cpp.obj -c D:\\C++\\Cpp_Project\\GcServer\\src\\GcSpdlog\\registry.cpp",
+  "file": "D:/C++/Cpp_Project/GcServer/src/GcSpdlog/registry.cpp",
+  "output": "src/GcSpdlog/CMakeFiles/gcspdlog.dir/registry.cpp.obj"
+},
+{
+  "directory": "D:/C++/Cpp_Project/GcServer/build/src/GcSpdlog",
+  "command": "D:\\MINGW\\mingw32\\bin\\g++.exe -Dgcspdlog_EXPORTS @CMakeFiles/gcspdlog.dir/includes_CXX.rsp -g -o CMakeFiles\\gcspdlog.dir\\sink.cpp.obj -c D:\\C++\\Cpp_Project\\GcServer\\src\\GcSpdlog\\sink.cpp",
+  "file": "D:/C++/Cpp_Project/GcServer/src/GcSpdlog/sink.cpp",
+  "output": "src/GcSpdlog/CMakeFiles/gcspdlog.dir/sink.cpp.obj"
+},
+{
+  "directory": "D:/C++/Cpp_Project/GcServer/build/example",
+  "command": "D:\\MINGW\\mingw32\\bin\\g++.exe  @CMakeFiles/test.dir/includes_CXX.rsp -g -o CMakeFiles\\test.dir\\test.cpp.obj -c D:\\C++\\Cpp_Project\\GcServer\\example\\test.cpp",
+  "file": "D:/C++/Cpp_Project/GcServer/example/test.cpp",
+  "output": "example/CMakeFiles/test.dir/test.cpp.obj"
+}
+]
