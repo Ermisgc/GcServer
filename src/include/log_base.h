@@ -1,13 +1,44 @@
 #pragma once
+#include <chrono>
+#include <memory>
 namespace gcspdlog
 {
+    using LogClock = std::chrono::high_resolution_clock;
     enum Level{
-        UNKNOWN = 0,
-        DEBUG = 1,
-        INFO = 2,
-        WARN = 3,
-        ERROR = 4,
-        FATAL = 5,
-        OFF = 6
+        GCSPDLOG_LEVEL_TRACE = 0,
+        GCSPDLOG_LEVEL_DEBUG = 1,
+        GCSPDLOG_LEVEL_INFO = 2,
+        GCSPDLOG_LEVEL_WARN = 3,
+        GCSPDLOG_LEVEL_ERROR = 4,
+        GCSPDLOG_LEVEL_CRITICAL = 5,
+        GCSPDLOG_LEVEL_OFF = 6
+    };
+
+    struct SourceLoc{
+        const char * filename{nullptr};
+        const char * funcname{nullptr};
+        uint32_t line{0};
+
+        SourceLoc(const char * _filename, const char * _funcname, uint32_t _line): filename(_filename), funcname(_funcname), line(_line){}
+        SourceLoc() = default;
+        //if not valid, the information will not be written
+        bool valid(){
+            return line > 0 && filename && funcname;
+        }
+    };
+
+    struct LogMsg{
+        uint32_t thread_id{0};
+        Level level{Level::GCSPDLOG_LEVEL_OFF};
+        //temperarily use this
+        LogClock::time_point time{LogClock::now()};
+        SourceLoc source;
+        std::string msg;
+
+        LogMsg() = default;
+        LogMsg(std::string & _msg, Level _level = GCSPDLOG_LEVEL_OFF, SourceLoc _src = SourceLoc(), LogClock::time_point _time = LogClock::now(), uint32_t _thread = 0):\
+            msg(_msg), level(_level), source(_src), time(_time), thread_id(_thread){}
+
+        using ptr = std::shared_ptr<LogMsg>;
     };
 } // namespace gcspdlog
