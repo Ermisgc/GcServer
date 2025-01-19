@@ -18,8 +18,8 @@ namespace gcspdlog
         LogMsg::ptr temp_msg;
     public:
         using ptr = std::shared_ptr<Formatter>;
-        Formatter() = default;
-        Formatter(const std::string & fmt);
+        Formatter() = delete;
+        Formatter(const std::string & fmt = "[%l][%y-%m-%d-%h-%i-%e][%o,line:%n]: %s");
         ~Formatter();
 
         void setPattern(const std::string & fmt);
@@ -38,6 +38,5 @@ namespace gcspdlog
         std::string getLine(const std::string & _="");
         std::string getThreadid(const std::string & _="");
         std::string getString(const std::string & _);
-
     };
 } // namespace gcspdlog

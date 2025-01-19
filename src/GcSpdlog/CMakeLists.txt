@@ -1,4 +1,4 @@
-include_directories(../include/GcSpdlog)
+include_directories(../include)
 
 aux_source_directory(. SRC_LIST)
 

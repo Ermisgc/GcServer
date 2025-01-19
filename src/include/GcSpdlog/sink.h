@@ -1,6 +1,5 @@
 #pragma once
 #include "formatter.h"
-#include "log_base.h"
 
 namespace gcspdlog{
     class Sink{
@@ -11,7 +10,7 @@ namespace gcspdlog{
         Sink(Level level, const Formatter::ptr Formatter);
         virtual ~Sink();
 
-        void log(Level level, const std::string & msg);
+        virtual void log(LogMsg::ptr msg);
         
     };
 }

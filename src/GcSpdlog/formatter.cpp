@@ -1,8 +1,9 @@
-#include "formatter.h"
+#include "./GcSpdlog/formatter.h"
+#include <limits.h>
 namespace gcspdlog{
 
 Formatter::Formatter(const std::string & fmt){
-
+    this->setPattern(fmt);
 }
 Formatter::~Formatter(){
 
@@ -11,6 +12,30 @@ Formatter::~Formatter(){
 void Formatter::setPattern(const std::string & fmt){
     this->pattern.clear();
     // int last
+    int left = 0, right = 0, n = fmt.size();
+    for(int i = 0;i < n - 1; ++i){
+        if(fmt[i] != '%') continue;
+        else{
+            //push_back the current string
+            right = i;
+            if(right > left){
+                this->pattern.emplace_back(std::make_pair('.', fmt.substr(left, right - left)));
+            }
+
+            switch (fmt[i + 1])
+            {
+            case 's':case 'y':case 'm':case 'd':case 'h':case 'i':case 'e':case 'l':\
+            case 'o':case 'f':case 'n':case 't': 
+                this->pattern.emplace_back(std::make_pair(fmt[i + 1], ""));
+            default:
+                break;
+            }
+
+            i++;
+            left = i + 1;
+        }
+    }
+    if(n > left) this->pattern.emplace_back(std::make_pair('.', fmt.substr(left, n - left)));
 }
 
 std::string Formatter::format(LogMsg::ptr lmsg){
@@ -27,10 +52,11 @@ std::string Formatter::format(LogMsg::ptr lmsg){
     XX('i', getMinute),
     XX('e', getSecond),
     XX('l', getLevel),
-    XX('s', getSourceFile),
+    XX('o', getSourceFile),
     XX('f', getFunction),
     XX('n', getLine),
-    XX('t', getThreadid)
+    XX('t', getThreadid),
+    XX('.', getString)
 #undef XX
     };
     std::string ans;
@@ -76,13 +102,13 @@ std::string Formatter::getLevel(const std::string &){
 }
 
 std::string Formatter::getSourceFile(const std::string &){
-    return temp_msg->source.filename;
+    return temp_msg->source.valid() ? temp_msg->source.filename : "";
 }
 std::string Formatter::getFunction(const std::string &){
-    return temp_msg->source.funcname;
+    return temp_msg->source.valid() ? temp_msg->source.funcname : "";
 }
 std::string Formatter::getLine(const std::string &){
-    return std::to_string(temp_msg->source.line);
+    return temp_msg->source.valid() ? std::to_string(temp_msg->source.line) : "";
 }
 std::string Formatter::getThreadid(const std::string &){
     return std::to_string(temp_msg->thread_id);

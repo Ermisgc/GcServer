@@ -3,6 +3,10 @@ cmake_minimum_required (VERSION 3.11)
 # 可以指定更多的信息，比如加一个版本号
 project ("GcServer")
 
+# choose the version of cpp
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 if(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
     # !!! choose your compiler on Windows
     set(CMAKE_C_COMPILER "D:/MINGW/mingw32/bin/g++.exe")
