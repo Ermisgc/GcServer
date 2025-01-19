@@ -1,6 +1,9 @@
 #include "./GcSpdlog/formatter.h"
 #include <limits.h>
 namespace gcspdlog{
+Formatter::Formatter(){
+    this->setPattern("[%l][%y-%m-%d-%h-%i-%e][%o,line:%n]: %s");
+}
 
 Formatter::Formatter(const std::string & fmt){
     this->setPattern(fmt);

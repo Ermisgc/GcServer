@@ -5,6 +5,7 @@
 #include <string>
 namespace gcspdlog
 {
+    //a nickname of std::chrono::high_resolution_clock
     using LogClock = std::chrono::high_resolution_clock;
     enum Level{
         GCSPDLOG_LEVEL_TRACE = 0,

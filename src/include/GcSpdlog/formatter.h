@@ -18,8 +18,8 @@ namespace gcspdlog
         LogMsg::ptr temp_msg;
     public:
         using ptr = std::shared_ptr<Formatter>;
-        Formatter() = delete;
-        Formatter(const std::string & fmt = "[%l][%y-%m-%d-%h-%i-%e][%o,line:%n]: %s");
+        Formatter();
+        Formatter(const std::string & fmt);
         ~Formatter();
 
         void setPattern(const std::string & fmt);
