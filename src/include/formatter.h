@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include <functional>
+#include <string>
 #include <string_view>
 #include <map>
 #include "log_base.h"
@@ -10,11 +11,8 @@ namespace gcspdlog
     class Formatter
     { 
     private:
-        //use chars mapping to functions, the functions include formatter function and a raw transmitting function.
-        static const std::map<char, std::function<std::string(const std::string_view &)>> fmt_mat;
-
         //store the function and its parameter.
-        std::vector<std::pair<char, std::string_view>> pattern;
+        std::vector<std::pair<char, std::string>> pattern;
 
         //temporarily store the message as a global parameter.
         LogMsg::ptr temp_msg;
@@ -25,13 +23,21 @@ namespace gcspdlog
         ~Formatter();
 
         void setPattern(const std::string & fmt);
-        void format(LogMsg::ptr msg);
+        std::string format(LogMsg::ptr msg);
     private:
-#define XX(func) std::string func(const std::string_view & _){return func();}
-        XX(getMonth);
-#undef XX
+        std::string getYear(const std::string & _="");
+        std::string getMonth(const std::string & _="");
+        std::string getDay(const std::string & _="");
+        std::string getMessage(const std::string & _="");
+        std::string getHour(const std::string & _="");
+        std::string getMinute(const std::string & _="");
+        std::string getSecond(const std::string & _="");
+        std::string getLevel(const std::string & _="");
+        std::string getSourceFile(const std::string & _="");
+        std::string getFunction(const std::string & _="");
+        std::string getLine(const std::string & _="");
+        std::string getThreadid(const std::string & _="");
+        std::string getString(const std::string & _);
 
-
-        std::string getMonth(){ return "month";};
     };
 } // namespace gcspdlog

@@ -1,6 +1,7 @@
 #pragma once
 #include <chrono>
 #include <memory>
+#include <iostream>
 namespace gcspdlog
 {
     using LogClock = std::chrono::high_resolution_clock;
@@ -19,7 +20,7 @@ namespace gcspdlog
         const char * funcname{nullptr};
         uint32_t line{0};
 
-        SourceLoc(const char * _filename, const char * _funcname, uint32_t _line): filename(_filename), funcname(_funcname), line(_line){}
+        SourceLoc(const char * _filename=__FILE__, const char * _funcname=__FUNCTION__, uint32_t _line=__LINE__): filename(_filename), funcname(_funcname), line(_line){}
         SourceLoc() = default;
         //if not valid, the information will not be written
         bool valid(){
@@ -30,15 +31,16 @@ namespace gcspdlog
     struct LogMsg{
         uint32_t thread_id{0};
         Level level{Level::GCSPDLOG_LEVEL_OFF};
-        //temperarily use this
-        LogClock::time_point time{LogClock::now()};
+        std::tm* time{nullptr};
         SourceLoc source;
         std::string msg;
 
         LogMsg() = default;
         LogMsg(std::string & _msg, Level _level = GCSPDLOG_LEVEL_OFF, SourceLoc _src = SourceLoc(), LogClock::time_point _time = LogClock::now(), uint32_t _thread = 0):\
-            msg(_msg), level(_level), source(_src), time(_time), thread_id(_thread){}
-
+            msg(_msg), level(_level), source(_src), thread_id(_thread){
+            auto time_t_value = LogClock::to_time_t(_time);
+            time = std::localtime(&time_t_value);
+        }
         using ptr = std::shared_ptr<LogMsg>;
     };
 } // namespace gcspdlog

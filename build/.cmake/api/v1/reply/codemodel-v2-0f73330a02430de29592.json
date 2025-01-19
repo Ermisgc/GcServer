@@ -1,0 +1,126 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.11"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "src",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-src-Debug-c94b7c2814d5a21df52c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.11"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src"
+				},
+				{
+					"build" : "src/GcSpdlog",
+					"jsonFile" : "directory-src.GcSpdlog-Debug-a7907f2465e35244964e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.11"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "src/GcSpdlog",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "example",
+					"jsonFile" : "directory-example-Debug-8ca0c98ee1efd38c600f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.11"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "example",
+					"targetIndexes" : 
+					[
+						0,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					],
+					"name" : "GcServer",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "gchelp::@70983d692f648185febe",
+					"jsonFile" : "target-gchelp-Debug-76609f431cecaf6a82ad.json",
+					"name" : "gchelp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "gcspdlog::@2a416925b573917b4103",
+					"jsonFile" : "target-gcspdlog-Debug-1460492ed2852cab5447.json",
+					"name" : "gcspdlog",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "test::@70983d692f648185febe",
+					"jsonFile" : "target-test-Debug-bc0aa4a84773946326e4.json",
+					"name" : "test",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/C++/Cpp_Project/GcServer/build",
+		"source" : "D:/C++/Cpp_Project/GcServer"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
