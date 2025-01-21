@@ -3,4 +3,4 @@ mkdir -p bin
 cd build
 cmake ..
 make
-cd ../bin
+cd ../bin.

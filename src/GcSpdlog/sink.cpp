@@ -26,6 +26,7 @@ FileSink::~FileSink(){
 }
         
 void FileSink::log(LogMsg::ptr msg) {
+    if(msg->level < m_level) return;
     if(!_file_stream){
         _file_stream = std::make_shared<std::ofstream>(file_name, std::ios_base::out | std::ios_base::app);
         if(!_file_stream->is_open()){
@@ -34,7 +35,7 @@ void FileSink::log(LogMsg::ptr msg) {
             return;
         }
     }
-    (*_file_stream) << this->m_formatter->format(msg); 
+    (*_file_stream) << this->m_formatter->format(msg) << std::endl; 
 }
 
 }
