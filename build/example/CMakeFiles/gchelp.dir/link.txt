@@ -1,3 +1,0 @@
-"D:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\gchelp.dir/objects.a
-D:\MINGW\mingw32\bin\ar.exe qc CMakeFiles\gchelp.dir/objects.a @CMakeFiles\gchelp.dir\objects1.rsp
-D:\MINGW\mingw32\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\gchelp.dir/objects.a -Wl,--no-whole-archive -o D:\C++\Cpp_Project\GcServer\bin\gchelp.exe -Wl,--out-implib,D:\C++\Cpp_Project\GcServer\bin\libgchelp.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\gchelp.dir\linkLibs.rsp

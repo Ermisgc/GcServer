@@ -1,3 +1,0 @@
-"D:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\gchipe.dir/objects.a
-D:\MINGW\mingw32\bin\ar.exe qc CMakeFiles\gchipe.dir/objects.a @CMakeFiles\gchipe.dir\objects1.rsp
-D:\MINGW\mingw32\bin\g++.exe -g -shared -o D:\C++\Cpp_Project\GcServer\lib\libgchipe.dll -Wl,--out-implib,D:\C++\Cpp_Project\GcServer\lib\libgchipe.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\gchipe.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\gchipe.dir\linkLibs.rsp
