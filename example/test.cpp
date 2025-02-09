@@ -1,41 +1,76 @@
-#include <coroutine>
 #include <iostream>
-using namespace std;
-struct CoRet{
-    struct promise_type{  //协程的返回值一定要一个promise_type
-        suspend_never initial_suspend() {return {};}
-        suspend_never final_suspend() noexcept {return {};}
-        void unhandled_exception() {}
-        CoRet get_return_object(){
-            return {coroutine_handle<promise_type>::from_promise(*this)};
-        }
-    };
 
-    coroutine_handle<promise_type> _h;  //handle可以resume:_h.resume() 或 _h();
+template<class Comparable, class ValueType>
+struct rbtree_node{
+    rbtree_node * parent;
+    rbtree_node * left;
+    rbtree_node * right;
+
+    Comparable key;
+    ValueType val;
+    unsigned char color;
 };
 
-struct Input{
-    bool await_ready() {return false;};  //当我们遇到co_await是否需要暂停并跳转，false就是需要
-    void await_suspend(coroutine_handle<CoRet::promise_type> h){  //跳转回main函数或handle协程
-        //h.promise()
+template<class Comparable, class ValueType>
+class rbtree{
+private:
+    rbtree_node<Comparable, ValueType> *root;
+    rbtree_node<Comparable, ValueType> * nil;
+public:
+    rbtree(){}
+    rbtree(rbtree & other){ // deep copy
+        
     }
-    int await_resume() {return 0;};
+
+    rbtree(rbtree && other){ // move constructor
+        delete root;
+        root = other.root;
+        other.root = nullptr;
+    }
+
+    ~rbtree(){
+        dfs_for_delete(root);
+        delete nil;
+    }
+
+    rbtree_node<Comparable, ValueType> * root(){return root;}
+    void setRoot(rbtree_node<Comparable, ValueType> *rt){this->root = rt;}
+    rbtree_node<Comparable, ValueType> * nil() {return nil;}
+
+private:
+    void dfs_for_delete(rbtree_node<Comparable, ValueType> * rt){
+        //in-tranverse
+        if(rt->left != nil) dfs_for_delete(rt->left);
+        if(rt->right != nil) dfs_for_delete(rt->right);
+        delete rt;
+    }
+
+    void dfs_for_deepcopy(rbtree_node<Comparable, ValueType> *rt){
+
+    }
+
+    void left_rotate(rbtree_node<Comparable, ValueType> *x){
+        //             x                                        y
+        //  alpha              y             -->           x       gamma
+        //               beta    gamma              alpha      bata
+        rbtree_node<Comparable, ValueType>* y = x->right;
+        x->right = y->left;
+        if(y->left != nil) y->left->parent = x;
+
+        y->parent = x->parent;
+        if(y->parent == nil) root = y;
+        else if(x == x->parent->left) y = y->parent->left;
+        else y = y->parent->right;
+
+        y->left = x;
+        x->parent = y;
+    }
+
+    void right_rotate(rbtree_node<Comparable, ValueType> *y){
+        //             x                                        y
+        //  alpha              y             -->           x       gamma
+        //               beta    gamma              alpha      bata
+        rbtree_node<Comparable, ValueType> * x = y->left;
+        y->left = x->right;
+    }
 };
-
-CoRet Guess(){
-    // CoRet::promise_type promise;
-    // CoRet ret = promise.get_return_object();
-    // co_await promise.initial_suspend();
-    Input input;
-    int g = co_await input;
-    cout << "coroutime: you guess" << g << endl;
-
-    // co_await promise.final_suspend();
-}
-
-int main(){
-    auto ret = Guess();
-    cout << "main: make a guess ..." << endl; 
-
-    ret._h.resume();
-}
