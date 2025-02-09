@@ -3,6 +3,7 @@
 #include <queue>
 #include <thread>
 #include <functional>
+#include <iostream>
 #include <condition_variable>
 #include "./GcHipe/hipe_task.h"
 
@@ -29,10 +30,43 @@ namespace gchipe{
         DynamicThreadPool(unsigned int th_num = 1);
 
         template<class _Callable>
-        auto submit(_Callable &&task) -> std::future<std::invoke_result_t<decltype(task)>>;
+        auto submit(_Callable &&task) -> std::future<std::invoke_result_t<decltype(task)>>{
+            using RT = std::invoke_result_t<decltype(task)>;
+            if(waiting.load()){
+                std::cout << "The thread pool is waiting for the rest tasks, you can not add more tasks" << std::endl;
+                return std::future<RT>();
+            }
+            std::packaged_task<RT()> pt(std::move(task));  //only rvalue is needed
+            std::future<RT> ret = pt.get_future();
+            {
+                std::unique_lock<std::mutex> locker(shared_lock);
+                if(tasks.size() >= max_task_num){
+                    std::cout << "Task queue overflow" << std::endl;
+                    return std::future<RT>();
+                }         
+                //there: task has been std::bind, so the task is a function<RT()>
+                tasks.emplace(std::move(pt));
+            }
+            wait_cv.notify_one();
+            return ret;
+        }
         
         template<class _Callable>
-        void execute(_Callable &&task);
+        void execute(_Callable &&task){
+            if(waiting.load()){
+                std::cout << "The thread pool is waiting for the rest tasks, you can not add more tasks" << std::endl;
+                return;
+            }
+            {
+                std::unique_lock<std::mutex> locker(shared_lock);
+                if(tasks.size() >= max_task_num){
+                    std::cout << "Task queue overflow" << std::endl;
+                    return;
+                }
+                tasks.emplace(HipeTask(std::forward<_Callable>(task)));
+            }
+            wait_cv.notify_one();
+        }
 
         void waitforAllTasks();
 
@@ -47,6 +81,6 @@ namespace gchipe{
     private:
         //work function
         void worker(int index);
-    }
+    };
 
 }

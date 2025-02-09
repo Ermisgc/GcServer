@@ -7,15 +7,15 @@ namespace gchipe
     {
     private:
         struct BaseExcutable{
-            virtual ~BaseExcutable();
+            virtual ~BaseExcutable(){}
             virtual void call() = 0;
         } *callable;
 
         template <class Funtype>
         struct Executable: public BaseExcutable{
-            std::packaged_task<Funtype> foo;
+            Funtype foo;
             //perfect forward
-            Executable(std::packaged_task<Funtype> && _clb):foo(std::forward(_clb)), BaseExcutable(){}  
+            Executable(Funtype && _clb):foo(std::forward<Funtype>(_clb)), BaseExcutable(){}  
             void call() override{
                 this->foo();
             }
@@ -27,7 +27,7 @@ namespace gchipe
         HipeTask(HipeTask &) = delete;
 
         template<class _Callable>
-        HipeTask(_Callable && foo):callable(new Executable<_Callable>(std::forward(foo))){}
+        HipeTask(_Callable && foo):callable(new Executable<_Callable>(std::forward<_Callable>(foo))){}
 
         HipeTask(HipeTask && other){
             this->callable = other.callable;

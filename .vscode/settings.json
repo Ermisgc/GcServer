@@ -62,6 +62,8 @@
         "stop_token": "cpp",
         "thread": "cpp",
         "future": "cpp",
-        "mutex": "cpp"
+        "mutex": "cpp",
+        "cstdarg": "cpp",
+        "coroutine": "cpp"
     }
 }

@@ -9,7 +9,7 @@ if(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
     set(CMAKE_CXX_COMPILER "D:/MINGW/mingw32/bin/g++.exe")
 else()  # in Ubuntu
     # # choose the version of cpp, C++17 or higher is needed.
-    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD 20)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
