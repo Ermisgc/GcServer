@@ -296,21 +296,66 @@ private:
             }
         }
         else if(y->parent->color == 1){
-            bool change_color = false;
-            if(y->left != _nil || y->right != _nil) change_color = true;
-
-            if(y == y->parent->left) right_rotate(y->parent);
-            else left_rotate(y->parent);
-
-            if(change_color){
+            if(y->left != _nil && y->right != _nil){
                 y->color = 1;
-                if(y->left != _nil) y->left->color = 0;
-                if(y->right != _nil) y->right->color = 0;
+                y->parent->color = 0;
+                if(y == y->parent->left){
+                    y->left->color = 0;
+                    right_rotate(y->parent);
+                } else { //y is y_p's right childs 
+                    y->right->color = 0;
+                    left_rotate(y->parent);
+                }
+            }
+            else if(y->left != _nil){
+                if(y == y->parent->left) right_rotate(y->parent);
+                else {  // y == y->parent->right
+                    y->parent->color = 0;
+                    right_rotate(y);
+                    left_rotate(y->parent->parent);
+                }
             } 
+            else if(y->right != _nil){
+                if(y == y->parent->left) {
+                    y->parent->color = 0;
+                    left_rotate(y);
+                    right_rotate(y->parent->parent);
+                }
+                else left_rotate(y->parent);
+            } 
+            else { // y has no child
+                y->color = 1;
+                y->parent->color = 0;
+            }
         }
         else{  //y->parent->color == 0
-            if(y == y->parent->left){
-                if(y->left != _nil) 
+            if(y->left != _nil && y->right != _nil){
+                if(y == y->parent->left){
+                    y->left->color = 0;
+                    right_rotate(y->parent);
+                } else { //y == y->parent->right
+                    y->right->color = 0;
+                    left_rotate(y->parent);
+                }
+            }
+            else if(y->left != _nil){
+                y->left->color = 0;
+                if(y == y->parent->left) left_rotate(y->parent);
+                else { //y == y->parent->right
+                    left_rotate(y);
+                    right_rotate(y->parent->parent);
+                }
+            }
+            else if(y->right != _nil){
+                y->right->color = 0;
+                if(y == y->parent->left){
+                    right_rotate(y);
+                    left_rotate(y->parent->parent);
+                } else right_rotate(y->parent);
+            }
+            else{
+                y->color = 1;
+                rbtree_delete_fixup(y->parent);
             }
 
         }
