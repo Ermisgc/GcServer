@@ -1,5 +1,5 @@
 include_directories(../src/include)
 add_executable(test_hipe test_hipe.cpp)
 add_executable(gchelp help.cpp)
-add_executable(test test.cpp)
+add_executable(test_rbtree test_rbtree.cpp)
 target_link_libraries(test_hipe gchipe)

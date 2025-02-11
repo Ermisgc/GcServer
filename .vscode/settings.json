@@ -64,6 +64,7 @@
         "future": "cpp",
         "mutex": "cpp",
         "cstdarg": "cpp",
-        "coroutine": "cpp"
+        "coroutine": "cpp",
+        "unordered_set": "cpp"
     }
 }
