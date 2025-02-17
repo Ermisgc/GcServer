@@ -3,6 +3,17 @@
 #include <memory>
 #include <iostream>
 #include <string>
+
+//define some macros easy to use
+#define QuickMsg(msg, level) make_shared<gcspdlog::LogMsg>(msg, level, SourceLoc(__FILE__, __func__, __LINE__))
+#define QuickMsgOFF(msg) QuickMsg(msg, gcspdlog::GCSPDLOG_LEVEL_OFF)
+#define QuickMsgCRI(msg) QuickMsg(msg, gcspdlog::GCSPDLOG_LEVEL_CRITICAL)
+#define QuickMsgERR(msg) QuickMsg(msg, gcspdlog::GCSPDLOG_LEVEL_ERROR)
+#define QuickMsgWARN(msg) QuickMsg(msg, gcspdlog::GCSPDLOG_LEVEL_WARN)
+#define QuickMsgDEBUG(msg) QuickMsg(msg, gcspdlog::GCSPDLOG_LEVEL_DEBUG)
+#define QuickMsgINFO(msg) QuickMsg(msg, gcspdlog::GCSPDLOG_LEVEL_INFO)
+#define QuickMsgTRACE(msg) QuickMsg(msg, gcspdlog::GCSPDLOG_LEVEL_TRACE)
+
 namespace gcspdlog
 {
     //a nickname of std::chrono::high_resolution_clock

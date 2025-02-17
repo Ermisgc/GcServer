@@ -19,7 +19,7 @@ namespace gcspdlog{
         virtual void log(LogMsg::ptr msg);
     };
 
-    class FileSink: Sink{
+    class FileSink: public Sink{
         std::string file_name;
         std::shared_ptr<std::ofstream> _file_stream; 
     public:

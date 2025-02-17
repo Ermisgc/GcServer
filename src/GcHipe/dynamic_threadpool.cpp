@@ -8,11 +8,19 @@ namespace gchipe{
         }
     }
 
+    DynamicThreadPool::~DynamicThreadPool(){
+        close();
+    }
+
     void DynamicThreadPool::waitforAllTasks(){
         waiting.store(true);
-        
-
+        {
+            std::unique_lock<std::mutex> ulck(shared_lock);
+            task_done_cv.wait(ulck, [this]()->bool{return tasks.empty();});
+        }
+        //waitforCurrentTasks();
         waiting.store(false);
+        //waitforCurrentTasks();
     }
 
     void DynamicThreadPool::waitforCurrentTasks(){
@@ -37,6 +45,9 @@ namespace gchipe{
             HipeTask task = std::move(tasks.front());
             tasks.pop();
             gchipe::invoke(task);
+            if(waiting){
+                task_done_cv.notify_one();
+            }
         }
     }
 
@@ -48,5 +59,6 @@ namespace gchipe{
         this->stop.store(true);
         wait_cv.notify_all();
         waitforCurrentTasks();
+        this->stop.store(false);
     }
 }

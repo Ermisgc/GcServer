@@ -12,7 +12,9 @@ void Sink::log(LogMsg::ptr msg){
 }
 
 void Sink::setFormatter(const Formatter::ptr formatter){
-    if(formatter != nullptr) this->m_formatter = formatter;
+    if(formatter != nullptr){
+        this->m_formatter = formatter;
+    } 
 }
 
 FileSink::FileSink():file_name("log.txt"), Sink(){}
@@ -22,7 +24,6 @@ FileSink::FileSink(const std::string & file, Level Level, const Formatter::ptr f
 }
 
 FileSink::~FileSink(){
-
 }
         
 void FileSink::log(LogMsg::ptr msg) {
