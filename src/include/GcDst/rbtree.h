@@ -1,3 +1,4 @@
+#include <iostream>
 namespace gcdst{
 template<class Comparable=int, class ValueType=int>
 struct rbtree_node{
@@ -86,8 +87,8 @@ private:
         if(rt->left != _nil){
             //assert(rt->left->key < rt->key);
             if(rt->left->key > rt->key){
-                cout << "left is bigger than root" << endl;
-                cout << rt->left->key << " " << rt->key << " " << rt->right->key << endl;
+                std::cout << "left is bigger than root" << std::endl;
+                std::cout << rt->left->key << " " << rt->key << " " << rt->right->key << std::endl;
                 return false;
             } 
             //assert(dfs_for_test(rt->left));
@@ -97,8 +98,8 @@ private:
         if(rt->right != _nil){
             //assert(rt->right->key > rt->key);
             if(rt->right->key < rt->key){
-                cout << "right is smaller than root" << endl;
-                cout << rt->left->key << " " << rt->key << " " << rt->right->key << endl;
+                std::cout << "right is smaller than root" << std::endl;
+                std::cout << rt->left->key << " " << rt->key << " " << rt->right->key << std::endl;
                 return false;
             } 
             if(!dfs_for_test(rt->right)) return false;

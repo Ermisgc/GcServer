@@ -1,7 +1,10 @@
 #include <vector>
 namespace gcdst{
-    
-    template<class Comparable, class ValueType>
+    // skiplist I code
+    // To do lists:
+    // 1. a good implementation of deep copy is needed.
+    // 2. range-query is needed.
+    template<class Comparable=int, class ValueType=int>
     class skiplist{
     private:
         typedef struct skiplist_node{
@@ -20,7 +23,8 @@ namespace gcdst{
 
     public:
         skiplist() = delete;
-        explicit skiplist(int _max_level = 32): header(new Node(_max_level)), cur_level(0), max_level(_max_level){}
+        
+        skiplist(int _max_level = 32): header(new Node(_max_level)), cur_level(0), max_level(_max_level){}
         //deepcopy
         skiplist(const skiplist & other) = delete; //waiting for completion
 
@@ -32,18 +36,41 @@ namespace gcdst{
             max_level = std::move(other.max_level);
         }
 
+        ~skiplist(){
+            Node * cur = header;
+            while(cur->forward[0]){
+                Node * temp = cur->forward[0];
+                delete cur;
+                cur = temp;
+            }
+            delete cur;
+        }
+
         void operator=(const skiplist & other) = delete; //waiting for completion
 
-        void operator=(skiplist && other) = delete; //waiting for completion
+        void operator=(skiplist && other){ //waiting for completion
+            //clear the origin data
+            Node * cur = header;
+            while(cur->forward[0]){
+                Node * temp = cur->forward[0];
+                delete cur;
+                cur = temp;
+            }
+            delete cur;
+            header = other.header;
+            other.header = nullptr;
+            cur_level = std::move(other.cur_level);
+            max_level = std::move(other.max_level);
+        }
 
         ValueType find(Comparable key){
-            if(cur_level == 0 || header->forward[0]->key > key) throw ("Key " + to_string(key) + "is not exist");  //we can not find that key
+            if(cur_level == 0 || header->forward[0]->key > key) throw ("Key " + std::to_string(key) + "is not exist");  //we can not find that key
             const Node * cur = header;
             for(int i = cur_level - 1; i >= 0; --i){
                 while(cur->forward[i] && cur->forward[i]->key < key) cur = cur->forward[i];
+                if(cur->forward[i] && cur->forward[i]->key == key) return cur->forward[i]->value;
             }
-            if(cur && cur->key == key) return cur->value;
-            throw ("Key " + to_string(key) + "is not exist");
+            throw ("Key " + std::to_string(key) + "is not exist");
         }
 
         ValueType operator[](Comparable key){
@@ -59,14 +86,14 @@ namespace gcdst{
             const Node * cur = header;
             for(int i = cur_level - 1; i >= 0; --i){
                 while(cur->forward[i] && cur->forward[i]->key < key) cur = cur->forward[i];
+                if(cur->forward[i] && cur->forward[i]->key == key) return true;
             }
-            if(cur && cur->key == key) return true;
             return false;;
         }
 
         void insert(Comparable key, ValueType val){
             std::vector<Node *> updates(max_level, header);
-            const Node * cur = header;
+            Node * cur = header;
             for(int i = cur_level - 1; i >= 0; --i){
                 while(cur->forward[i] && cur->forward[i]->key < key) cur = cur->forward[i];
                 updates[i] = cur;
@@ -78,19 +105,19 @@ namespace gcdst{
                 new_node->forward[i] = updates[i]->forward[i];
                 updates[i]->forward[i] = new_node;
             }
-            cur_level = max(cur_level, new_node_level);
+            cur_level = cur_level > new_node_level ? cur_level: new_node_level;
         }
 
         void remove(Comparable key){
             std::vector<Node *> updates(max_level, header);
-            const Node * cur = header;
+            Node * cur = header;
             for(int i = cur_level - 1;i >= 0; --i){
                 while(cur->forward[i] && cur->forward[i]->key < key) cur = cur->forward[i];
                 updates[i] = cur;
             }
 
-            if(!cur->forward[0] || cur->forward[0] > key) return; // no node with that key
-            //the node to be deleted is cur->forward[0]
+            if(!cur->forward[0] || cur->forward[0]->key > key) return; // no node with that key
+            //else the node to be deleted is cur->forward[0]
             cur = cur->forward[0]; 
             for(int i = 0;i < cur_level; ++i){
                 if(updates[i]->forward[i] != cur) break;  //no need to continue deleting.
@@ -98,7 +125,7 @@ namespace gcdst{
             }
 
             delete cur;  //delete this node
-            if(cur_level > 1 && !header[cur_level - 1]) cur_level -= 1;
+            if(cur_level > 1 && !header->forward[cur_level - 1]) cur_level -= 1;
         }
 
     private:
