@@ -36,7 +36,7 @@ int main(int argc, char ** argv) {
     int numTasks = atoi(argv[1]);
 
     // 创建一个动态线程池，初始线程数为 4
-    DynamicThreadPool pool(8);
+    DynamicThreadPool * pool = DynamicThreadPool::getInstance(8);
     //pool.setMaxTaskNum(100000);
 
     // 测试线程池性能
@@ -44,11 +44,11 @@ int main(int argc, char ** argv) {
 
     // 提交 10000 个任务
     for (int i = 0; i < numTasks; ++i) {
-        pool.execute(computation_intensive_task);
+        pool->execute(computation_intensive_task);
     }
 
     // 等待所有任务完成
-    pool.waitforAllTasks();
+    pool->waitforAllTasks();
 
     auto end = chrono::high_resolution_clock::now();
 

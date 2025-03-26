@@ -11,6 +11,7 @@
 namespace gchipe{
     class DynamicThreadPool{
     private:
+        static DynamicThreadPool * instance;
         uint32_t max_task_num{1000};
         std::atomic<int> total_tasks{0};
         std::queue<HipeTask> tasks;
@@ -27,8 +28,8 @@ namespace gchipe{
         DynamicThreadPool() = delete;
         
         //the initial number of thread;
-        DynamicThreadPool(unsigned int th_num = 1);
-
+        
+        static DynamicThreadPool * getInstance(unsigned int th_num = 1);
         ~DynamicThreadPool();
 
         template<class _Callable>
@@ -83,6 +84,8 @@ namespace gchipe{
     private:
         //work function
         void worker(int index);
+
+        DynamicThreadPool(unsigned int th_num = 1);
     };
 
 }

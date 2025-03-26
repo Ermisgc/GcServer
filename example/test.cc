@@ -7,26 +7,14 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <iostream>
-#include "./base/noncopyable.h"
+#include "./GcNetwork/tcpserver.h"
 
 using namespace std;
-using namespace gc;
+using namespace gcnetwork;
 
-class Test: noncopyable{
-public:
-    Test(): noncopyable(){
-        cout << "default constructor" << endl;
-    }
-
-    Test(const Test & other){
-        cout << "copy constructor" << endl;
-    }
-};
-
-int main(){
-    Test t1;
-    Test t2 = t1;
-    Test t3(t1);
-
+int main(int argc, char ** argv){
+    if(argc < 3) return 1;
+    TcpServer ts;
+    ts.start(argv[1], argv[2]);
     return 0;
 }

@@ -1,6 +1,19 @@
 #include "./GcHipe/dynamic_threadpool.h"
 #include <iostream>
 namespace gchipe{
+    DynamicThreadPool * DynamicThreadPool::instance = nullptr;
+
+    DynamicThreadPool * DynamicThreadPool::getInstance(unsigned int th_num){
+        static std::mutex mtx;
+        if(!instance){
+            mtx.lock();
+            if(!instance){
+                instance = new DynamicThreadPool(th_num);
+            }
+            mtx.unlock();
+        }
+        return instance;
+    }
     //the initial number of thread;
     DynamicThreadPool::DynamicThreadPool(unsigned int th_num){
         for(int i = 0;i < th_num; ++i){
